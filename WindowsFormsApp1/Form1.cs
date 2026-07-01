@@ -48,6 +48,7 @@ namespace WindowsFormsApp1
                     cmd.Parameters.AddWithValue("@pwd", password);
                     int count = Convert.ToInt32(cmd.ExecuteScalar());
 
+
                     if (count > 0)
                     {
                         MessageBox.Show("登录成功");

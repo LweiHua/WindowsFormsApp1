@@ -1,0 +1,22 @@
+USE StudentDB;
+GO
+IF OBJECT_ID('Student') IS NOT NULL DROP TABLE Student;
+GO
+IF EXISTS (SELECT * FROM sys.sequences WHERE name = 'Seq_StudentNo')
+DROP SEQUENCE Seq_StudentNo;
+GO
+-- 创建学号序列，初始2026001，步长1
+CREATE SEQUENCE Seq_StudentNo START WITH 2026001 INCREMENT BY 1;
+GO
+CREATE TABLE Student(
+    Id INT PRIMARY KEY IDENTITY(1,1),
+    StudentNo INT UNIQUE NOT NULL DEFAULT(NEXT VALUE FOR Seq_StudentNo),
+    StudentName NVARCHAR(20) NOT NULL,
+    Grade NVARCHAR(10) NOT NULL DEFAULT N'一年级',
+    Class NVARCHAR(10) NOT NULL,
+    CreateTime DATETIME DEFAULT GETDATE()
+);
+GO
+-- 插入时只写姓名班级，学号自动生成
+INSERT INTO Student(StudentName,Class) VALUES(N'李四',N'2班');
+SELECT * FROM Student;
